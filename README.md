@@ -152,7 +152,7 @@ See the [LICENSE](./LICENSE) file for details.
 ## Related Links
 
 * **Blu Extension Repository**
-  [https://github.com/Get-Blu/blu](https://github.com/GarvAgnihotri/blu)
+  [https://github.com/Get-Blu/blu](https://github.com/Get-Blu/blu)
 
 * **VS Code Marketplace**
   [https://marketplace.visualstudio.com/items?itemName=Garv.blu](https://marketplace.visualstudio.com/items?itemName=Garv.blu)
