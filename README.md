@@ -22,7 +22,7 @@
     <tbody>
       <tr>
         <td align="center">
-          <a href="https://github.com/GarvAgnihotri/blu" target="_blank">
+          <a href="https://github.com/Get-Blu/blu" target="_blank">
             <strong>Main Blu Repository</strong>
           </a>
         </td>
@@ -47,7 +47,7 @@ This repository contains all the content and code used to build the official doc
 It is intentionally kept **separate** from the main extension repository to keep things simple, clean, and easy to maintain.
 
  Looking for the extension itself?  
-**https://github.com/GarvAgnihotri/blu**
+**https://github.com/Get-Blu/blu**
 
 ---
 
@@ -152,13 +152,13 @@ See the [LICENSE](./LICENSE) file for details.
 ## Related Links
 
 * **Blu Extension Repository**
-  [https://github.com/GarvAgnihotri/blu](https://github.com/GarvAgnihotri/blu)
+  [https://github.com/Get-Blu/blu](https://github.com/GarvAgnihotri/blu)
 
 * **VS Code Marketplace**
   [https://marketplace.visualstudio.com/items?itemName=Garv.blu](https://marketplace.visualstudio.com/items?itemName=Garv.blu)
 
 * **Discussions & Feature Requests**
-  [https://github.com/GarvAgnihotri/blu/discussions](https://github.com/GarvAgnihotri/blu/discussions)
+  [https://github.com/Get-Blu/blu/discussions](https://github.com/GarvAgnihotri/blu/discussions)
 
 ---
 
