@@ -21,7 +21,7 @@
     <tbody>
       <tr>
         <td align="center">
-          <a href="https://github.com/GarvAgnihotri/blu" target="_blank">
+          <a href="https://github.com/Get-Blu/blu" target="_blank">
             <strong>Repositorio Principal de Blu</strong>
           </a>
         </td>
@@ -46,7 +46,7 @@ Este repositorio contiene todo el contenido y código utilizado para construir l
 Se mantiene **separado** intencionalmente del repositorio principal de la extensión para mantener las cosas simples, limpias y fáciles de mantener.
 
  ¿Buscas la extensión en sí?  
-**https://github.com/GarvAgnihotri/blu**
+**https://github.com/Get-Blu/blu**
 
 ---
 
@@ -151,13 +151,13 @@ Consulta el archivo [LICENSE](./LICENSE) para más detalles.
 ## Enlaces Relacionados
 
 * **Repositorio de la Extensión Blu**
-  [https://github.com/GarvAgnihotri/blu](https://github.com/GarvAgnihotri/blu)
+  [https://github.com/Get-Blu/blu](https://github.com/GarvAgnihotri/blu)
 
 * **VS Code Marketplace**
   [https://marketplace.visualstudio.com/items?itemName=Garv.blu](https://marketplace.visualstudio.com/items?itemName=Garv.blu)
 
 * **Discusiones y Solicitudes de Funciones**
-  [https://github.com/GarvAgnihotri/blu/discussions](https://github.com/GarvAgnihotri/blu/discussions)
+  [https://github.com/Get-Blu/blu/discussions](https://github.com/GarvAgnihotri/blu/discussions)
 
 ---
 
