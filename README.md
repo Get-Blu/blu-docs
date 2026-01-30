@@ -158,7 +158,7 @@ See the [LICENSE](./LICENSE) file for details.
   [https://marketplace.visualstudio.com/items?itemName=Garv.blu](https://marketplace.visualstudio.com/items?itemName=Garv.blu)
 
 * **Discussions & Feature Requests**
-  [https://github.com/Get-Blu/blu/discussions](https://github.com/GarvAgnihotri/blu/discussions)
+  [https://github.com/Get-Blu/blu/discussions](https://github.com/Get-Blu/blu/discussions)
 
 ---
 
