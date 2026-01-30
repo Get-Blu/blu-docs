@@ -21,7 +21,7 @@
     <tbody>
       <tr>
         <td align="center">
-          <a href="https://github.com/GarvAgnihotri/blu" target="_blank">
+          <a href="https://github.com/Get-Blu/blu" target="_blank">
             <strong>Blu 主仓库</strong>
           </a>
         </td>
@@ -46,7 +46,7 @@
 我们特意将其与主扩展仓库**分开**，以保持简单、清晰和易于维护。
 
  在寻找扩展本身吗？  
-**https://github.com/GarvAgnihotri/blu**
+**https://github.com/Get-Blu/blu**
 
 ---
 
@@ -151,13 +151,13 @@ docs/i18n/
 ## 相关链接
 
 * **Blu 扩展仓库**
-  [https://github.com/GarvAgnihotri/blu](https://github.com/GarvAgnihotri/blu)
+  [https://github.com/Get-Blu/blu](https://github.com/GarvAgnihotri/blu)
 
 * **VS Code 市场**
   [https://marketplace.visualstudio.com/items?itemName=Garv.blu](https://marketplace.visualstudio.com/items?itemName=Garv.blu)
 
 * **讨论与功能请求**
-  [https://github.com/GarvAgnihotri/blu/discussions](https://github.com/GarvAgnihotri/blu/discussions)
+  [https://github.com/Get-Blu/blu/discussions](https://github.com/GarvAgnihotri/blu/discussions)
 
 ---
 
