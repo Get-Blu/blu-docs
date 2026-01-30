@@ -151,13 +151,13 @@ Consulta el archivo [LICENSE](./LICENSE) para más detalles.
 ## Enlaces Relacionados
 
 * **Repositorio de la Extensión Blu**
-  [https://github.com/Get-Blu/blu](https://github.com/GarvAgnihotri/blu)
+  [https://github.com/Get-Blu/blu](https://github.com/Get-Blu/blu)
 
 * **VS Code Marketplace**
   [https://marketplace.visualstudio.com/items?itemName=Garv.blu](https://marketplace.visualstudio.com/items?itemName=Garv.blu)
 
 * **Discusiones y Solicitudes de Funciones**
-  [https://github.com/Get-Blu/blu/discussions](https://github.com/GarvAgnihotri/blu/discussions)
+  [https://github.com/Get-Blu/blu/discussions](https://github.com/Get-Blu/blu/discussions)
 
 ---
 
