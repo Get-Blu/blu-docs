@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blu - Power up your tools with the one they've been missing.</title>
+    <meta name="description" content="blu is a high-performance VS Code extension that understands your entire codebase. Write, debug, and refactor code in real-time with an AI agent that lives in your editor.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #fafafa;
+            --bg-container: #ffffff;
+            --text-main: #111111;
+            --text-muted: #666666;
+            --border-color: #e5e5e5;
+            --accent-black: #000000;
+            --accent-bg: #f9f9f9;
+            --font-stack: 'Space Mono', monospace;
+            --container-width: 1024px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 14px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .site-container {
+            background-color: var(--bg-container);
+            width: 100%;
+            max-width: var(--container-width);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; cursor: pointer; }
+        ul { list-style: none; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .grid { display: grid; }
+        .badge { background: var(--accent-black); color: white; padding: 2px 6px; font-size: 12px; margin-right: 10px; }
+        
+        .section-box { border-bottom: 1px solid var(--border-color); width: 100%; padding: 60px 40px; }
+
+        .btn {
+            padding: 12px 24px;
+            border: 1px solid var(--accent-black);
+            font-family: var(--font-stack);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-black { background: var(--accent-black); color: white; }
+        .btn-black:hover { background: #333; }
+        .btn-outline { background: transparent; color: var(--text-main); }
+        .btn-outline:hover { background: #f0f0f0; }
+
+        nav {
+            width: 100%;
+            height: 70px;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+        }
+        .logo { font-weight: 700; font-size: 20px; letter-spacing: -1px; }
+        .nav-links { gap: 30px; font-size: 13px; color: var(--text-muted); }
+
+        .hero { padding-top: 80px; padding-bottom: 60px; }
+        .hero-beta { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; display: block; }
+        .hero h1 { font-size: 42px; line-height: 1.2; margin-bottom: 20px; letter-spacing: -1px; }
+        .hero p { color: var(--text-muted); max-width: 600px; margin-bottom: 40px; }
+
+        .video-container {
+            width: 100%;
+            background: #000;
+            position: relative;
+            aspect-ratio: 16/9; 
+            max-height: 500px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .video-container {
+                max-height: 300px;
+                aspect-ratio: 16/9;
+            }
+        }
+        video { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+        .video-overlay-content {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .vid-logo { font-size: 80px; font-weight: 700; color: #ffffff; opacity: 0.2; letter-spacing: -4px; margin-bottom: 20px; }
+        .vid-terminal-popup {
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid #333;
+            padding: 20px;
+            width: 90%;
+            max-width: 650px;
+            color: #ddd;
+            font-family: var(--font-stack);
+            font-size: 14px;
+            border-left: 3px solid #3b82f6;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .feature-list li { margin-bottom: 15px; color: var(--text-muted); display: flex; }
+        .feature-list li::before { content: "[*]"; margin-right: 15px; color: #999; min-width: 25px;}
+        .feature-strong { color: var(--text-main); font-weight: 700; margin-right: 8px; }
+        .stat-num { font-weight: 700; }
+
+        .demo-screenshot {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid var(--border-color);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .demo-screenshot::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: #2d2d2d;
+            border-bottom: 1px solid #444;
+        }
+        .demo-content {
+            padding: 50px 30px 30px;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            font-family: var(--font-stack);
+            font-size: 12px;
+            color: #e0e0e0;
+        }
+        .code-line { margin-bottom: 8px; }
+        .code-comment { color: #6a9955; }
+        .code-keyword { color: #569cd6; }
+        .code-string { color: #ce9178; }
+        .code-function { color: #dcdcaa; }
+
+        .split-demo {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .split-demo-item {
+            background: #fff;
+            padding: 0;
+            position: relative;
+        }
+        .split-demo-img {
+            width: 100%;
+            height: auto;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1f1f1f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .split-demo-img::after {
+            content: '';
+        }
+        .split-demo-content {
+            padding: 30px;
+        }
+
+        .testimonial-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border-color); border: 1px solid var(--border-color); margin-top: 30px; }
+        .testimonial-card { background: #fff; padding: 30px; }
+        .testimonial-text { font-style: italic; color: var(--text-main); margin-bottom: 15px; }
+        .testimonial-author { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+
+        .workflow-step { margin-bottom: 30px; }
+        .step-num { color: #999; margin-bottom: 5px; font-size: 12px; }
+
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+            margin-top: 40px; 
+        }
+        .stat-card {
+            background: #ffffff;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 320px; /* Forces cards to align perfectly */
+        }
+        .stat-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+            border-color: #111111; /* Brighter color on hover */
+        }
+
+        .stat-header { font-size: 11px; color: #999; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-main { font-size: 32px; font-weight: 700; margin-bottom: 5px; color: #000; }
+        .stat-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4; }
+        
+        .visual-placeholder { height: 120px; width: 100%; background: #fcfcfc; margin-bottom: 20px; border: 1px dashed #eee; position: relative; overflow: hidden; }
+        .visual-placeholder.bright { 
+            background: #fcfdfe; 
+            border: 1px solid #f0f4f8; 
+            height: 120px; 
+            position: relative; 
+        }
+        .bar { width: 4px; background: #eee; border-radius: 2px; }
+        .graph-bars { display: flex; align-items: flex-end; justify-content: space-between; height: 100%; padding: 0 10px; }
+
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-color); border: 1px solid var(--border-color); margin-top: 30px; }
+        .pricing-card { background: #fff; padding: 40px 30px; position: relative; }
+        .pricing-card.featured { background: #fafafa; }
+        .pricing-card.featured::before { content: "POPULAR"; position: absolute; top: 15px; right: 15px; background: var(--accent-black); color: white; padding: 2px 8px; font-size: 10px; }
+        .price-tag { font-size: 32px; font-weight: 700; margin: 20px 0; }
+        .price-tag span { font-size: 14px; color: var(--text-muted); font-weight: 400; }
+        .pricing-features { margin: 20px 0; }
+        .pricing-features li { margin-bottom: 10px; font-size: 13px; color: var(--text-muted); }
+        .pricing-features li::before { content: "✓"; margin-right: 10px; color: var(--text-main); }
+
+        .faq-item { border-bottom: 1px solid var(--border-color); padding: 25px 0; cursor: pointer; }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
+        .faq-toggle { color: var(--text-muted); font-size: 18px; transition: transform 0.3s; }
+        .faq-answer { color: var(--text-muted); font-size: 13px; margin-top: 15px; display: none; line-height: 1.7; }
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-toggle { transform: rotate(45deg); }
+
+        .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-color); border: 1px solid var(--border-color); margin-top: 30px; }
+        .blog-card { background: #fff; padding: 30px; }
+        .blog-date { font-size: 11px; color: #999; margin-bottom: 15px; display: block; }
+        .blog-title { font-weight: 700; margin-bottom: 10px; font-size: 15px; }
+        .blog-excerpt { color: var(--text-muted); font-size: 12px; line-height: 1.6; }
+        .blog-link { margin-top: 15px; display: inline-block; font-size: 12px; color: var(--text-main); border-bottom: 1px solid var(--text-main); }
+
+        .usecase-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border-color); border: 1px solid var(--border-color); margin-top: 30px; }
+        .usecase-card { background: #fff; padding: 30px; }
+        .usecase-icon { width: 40px; height: 40px; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-weight: 700; }
+
+        .comparison-table { border: 1px solid var(--border-color); margin-top: 30px; width: 100%; }
+        .comparison-table tr { border-bottom: 1px solid var(--border-color); }
+        .comparison-table tr:last-child { border-bottom: none; }
+        .comparison-table td { padding: 20px; font-size: 13px; }
+        .comparison-table td:first-child { font-weight: 700; background: #fafafa; border-right: 1px solid var(--border-color); }
+        .comparison-table td:not(:first-child) { text-align: center; color: var(--text-muted); }
+
+        footer { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border-color); }
+        .footer-col { border-right: 1px solid var(--border-color); padding: 30px 40px; text-align: center; font-size: 13px; color: var(--text-muted); }
+        .legal { width: 100%; padding: 30px; text-align: center; font-size: 12px; color: #999; border-top: 1px solid var(--border-color); }
+
+        @media (max-width: 768px) {
+            .stats-grid, footer, .testimonial-grid, .pricing-grid, .blog-grid, .usecase-grid, .split-demo { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .comparison-table { font-size: 11px; }
+            .comparison-table td { padding: 15px 10px; }
+            body { padding: 20px 10px; }
+            .section-box { padding: 40px 20px; }
+            nav { padding: 0 20px; }
+            .split-demo-img { width: 100%; height: auto; }
+            .split-demo-item { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-container">
+
+        <nav>
+            <div class="logo">BLU</div>
+            <div class="flex items-center">
+                <div class="nav-links flex items-center" style="margin-right: 30px;">
+                    <a href="https://github.com/Get-Blu/blu">GitHub</a>
+                    <a href="docs_page.html">Docs</a>
+                    <a href="privacy_page.html">Privacy</a>
+                </div>
+                <a href="#"><button class="btn btn-black" style="padding: 8px 16px; font-size: 12px;">Install Extension</button></a>
+            </div>
+        </nav>
+
+        <!-- HERO SECTION -->
+        <section class="section-box hero">
+            <span class="hero-beta"><span class="badge">v1.0</span> Stable release now live on VS Code Marketplace</span>
+            <h1>The AI agent that lives in your editor</h1>
+            <p>blu is a high-performance VS Code extension that understands your entire codebase. Not just a chat—a partner that writes, debugs, and refactors in real-time.</p>
+
+            <div class="flex" style="gap: 20px;">
+                <a href="#"><button class="btn btn-black">Install for VS Code</button></a>
+                <a href="https://github.com/Get-Blu/blu"><button class="btn btn-outline">View on GitHub</button></a>
+            </div>
+        </section>
+
+        <!-- MAIN DEMO VIDEO -->
+        <div class="video-container">
+            <video playsinline loop muted autoplay controls>
+                <source src="blu_main.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <!-- HOW IT WORKS -->
+        <section id="features" class="section-box">
+            <h3 style="margin-bottom: 30px;">How blu works</h3>
+            <div class="workflow-step">
+                <div class="step-num">Step 01</div>
+                <div class="feature-strong">Context Discovery</div>
+                <p style="color: var(--text-muted); font-size: 13px;">blu scans your project structure and local files to build a temporary semantic index. It knows where your components, types, and utilities live.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="step-num">Step 02</div>
+                <div class="feature-strong">Agentic Reasoning</div>
+                <p style="color: var(--text-muted); font-size: 13px;">When you ask a question, blu doesn't just guess. It plans a multi-step execution—searching code, reading files, and testing assumptions.</p>
+            </div>
+            <div class="workflow-step" style="margin-bottom: 0;">
+                <div class="step-num">Step 03</div>
+                <div class="feature-strong">Direct Implementation</div>
+                <p style="color: var(--text-muted); font-size: 13px;">Once the plan is ready, blu writes the code directly into your editor. You can review, undo, or iterate with a single click.</p>
+            </div>
+        </section>
+
+        <!-- SPLIT FEATURE DEMOS -->
+        <section class="section-box">
+            <h3 style="margin-bottom: 20px;">See blu in action</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Real workflows, real results.</p>
+            
+            <div class="split-demo">
+                <div class="split-demo-item">
+                    <div class="split-demo-img">
+                        <img src="refactor-demo.jpg" style="width: 100%; height: auto; display: block;">
+                    </div>
+                    <div class="split-demo-content">
+                        <div class="feature-strong">Instant Refactoring</div>
+                        <p style="color: var(--text-muted); font-size: 13px; margin-top: 10px;">Convert JavaScript to TypeScript, split large files, or modernize legacy patterns—all with natural language commands.</p>
+                    </div>
+                </div>
+                <div class="split-demo-item">
+                    <div class="split-demo-img">
+                        <img src="tests-demo.png" style="width: 100%; height: auto; display: block;">
+                    </div>
+                    <div class="split-demo-content">
+                        <div class="feature-strong">Auto-Generated Tests</div>
+                        <p style="color: var(--text-muted); font-size: 13px; margin-top: 10px;">blu analyzes your code and writes comprehensive test suites with proper mocks and edge case coverage.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- USE CASES -->
+        <section class="section-box">
+            <h3 style="margin-bottom: 20px;">Use Cases</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">From startups to enterprise teams, blu adapts to your workflow.</p>
+            <div class="usecase-grid">
+                <div class="usecase-card">
+                    <div class="usecase-icon">01</div>
+                    <div class="feature-strong">Rapid Prototyping</div>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 10px;">Spin up entire features in minutes. blu scaffolds components, writes tests, and handles boilerplate so you can focus on innovation.</p>
+                </div>
+                <div class="usecase-card">
+                    <div class="usecase-icon">02</div>
+                    <div class="feature-strong">Legacy Refactoring</div>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 10px;">Modernize old codebases without breaking production. blu analyzes dependencies and refactors safely with automated testing.</p>
+                </div>
+                <div class="usecase-card">
+                    <div class="usecase-icon">03</div>
+                    <div class="feature-strong">Bug Hunting</div>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 10px;">Describe the bug and blu traces execution paths, identifies root causes, and proposes fixes with full context awareness.</p>
+                </div>
+                <div class="usecase-card">
+                    <div class="usecase-icon">04</div>
+                    <div class="feature-strong">Documentation</div>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 10px;">Generate inline comments, README files, and API docs that stay in sync with your codebase as it evolves.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADDITIONAL DEMO VIDEO -->
+        <div class="video-container">
+            <video playsinline loop muted autoplay>
+                <source src="blu_side.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <!-- TESTIMONIALS -->
+        <section id="testimonials" class="section-box">
+            <h3>Developer Testimonials</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Trusted by engineers at the world's most innovative companies.</p>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The workspace indexing is a game changer. It's the first AI extension that actually understands my complex file structure without me copy-pasting code."</p>
+                    <p class="testimonial-author">@sarah_dev — Senior Engineer</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"I replaced three other AI tools with blu. It's faster, cheaper, and being open-source means I can trust where my data goes."</p>
+                    <p class="testimonial-author">@jake_codes — Lead Architect</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"blu's terminal integration allowed it to fix its own build errors before I even noticed them. Truly powerful."</p>
+                    <p class="testimonial-author">@tech_lead — DevOps Specialist</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Minimalist design, maximum power. Exactly what a VS Code extension should be."</p>
+                    <p class="testimonial-author">@frontend_expert — UI Designer</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODEL SUPPORT -->
+        <section class="section-box">
+            <h3 style="margin-bottom: 20px;">Bring your own provider</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">blu is model-agnostic. Plug in your preferred API key or connect to a local instance in seconds.</p>
+            
+            <div class="grid" style="grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 40px;">
+                <ul class="feature-list">
+                    <li><span><span class="feature-strong">Anthropic</span> Native Claude 3.5 Sonnet & Opus support</span></li>
+                    <li><span><span class="feature-strong">OpenAI</span> Industry standard GPT-4o and o1-preview</span></li>
+                    <li><span><span class="feature-strong">Google Gemini</span> Multimodal power with Gemini 1.5 Pro</span></li>
+                </ul>
+                <ul class="feature-list">
+                    <li><span><span class="feature-strong">OpenRouter</span> Access 100+ models via a single unified API</span></li>
+                    <li><span><span class="feature-strong">Groq</span> LPU™ inference for near-instant code generation</span></li>
+                    <li><span><span class="feature-strong">Local (Ollama)</span> 100% private Llama 3, Mistral, or Qwen</span></li>
+                </ul>
+            </div>
+
+            <div class="visual-placeholder" style="height: 80px; display: flex; align-items: center; justify-content: space-around; opacity: 0.8; background: #fdfdfd; border-style: solid; border-color: var(--border-color);">
+                <div style="text-align: center;">
+                    <div style="font-weight: 700; font-size: 11px;">OPENAI</div>
+                    <div style="font-size: 9px; color: #999;">GPT-4o</div>
+                </div>
+                <div style="width: 1px; height: 20px; background: #eee;"></div>
+                <div style="text-align: center;">
+                    <div style="font-weight: 700; font-size: 11px;">ANTHROPIC</div>
+                    <div style="font-size: 9px; color: #999;">Claude 3.5</div>
+                </div>
+                <div style="width: 1px; height: 20px; background: #eee;"></div>
+                <div style="text-align: center;">
+                    <div style="font-weight: 700; font-size: 11px;">GOOGLE</div>
+                    <div style="font-size: 9px; color: #999;">Gemini 1.5</div>
+                </div>
+                <div style="width: 1px; height: 20px; background: #eee;"></div>
+                <div style="text-align: center;">
+                    <div style="font-weight: 700; font-size: 11px;">GROQ</div>
+                    <div style="font-size: 9px; color: #999;">Llama 3.1</div>
+                </div>
+                <div style="width: 1px; height: 20px; background: #eee;"></div>
+                <div style="text-align: center;">
+                    <div style="font-weight: 700; font-size: 11px;">OPENROUTER</div>
+                    <div style="font-size: 9px; color: #999;">All Models</div>
+                </div>
+            </div>
+
+            <p style="font-size: 11px; color: #999; margin-top: 20px; text-align: center;">
+                + Support for any OpenAI-compatible endpoint (Azure, Together AI, vLLM)
+            </p>
+        </section>
+
+        <!-- BENCHMARKS -->
+        <section class="section-box">
+            <h3 style="margin-bottom: 10px;">System Performance</h3>
+            <p style="color: var(--text-muted); margin-bottom: 40px;">Optimized for speed and local-first reliability.</p>
+    
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-header">Latency</div>
+                        <div class="stat-main">~1.2s</div>
+                        <p class="stat-desc">Average response time when using Groq LPU™ or Claude 3.5 Sonnet optimization.</p>
+                    </div>
+                    <div class="visual-placeholder bright"><div class="graph-bars" id="bars1"></div></div>
+                </div>
+
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-header">Intelligence</div>
+                        <div class="stat-main">98.2%</div>
+                        <p class="stat-desc">Contextual accuracy in multi-file refactoring and dependency mapping.</p>
+                    </div>
+                    <div class="visual-placeholder bright" id="bars2" style="background-image: radial-gradient(#3b82f6 1px, transparent 1px); background-size: 12px 12px; opacity: 0.2;"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-header">Availability</div>
+                        <div class="stat-main">Unlimited</div>
+                        <p class="stat-desc">Zero rate limits. Bring your own API keys or run 100% offline via Ollama.</p>
+                    </div>
+                    <div class="visual-placeholder bright" style="display: flex; align-items: center; justify-content: center; font-weight: 700; color: #3b82f6; font-size: 10px; letter-spacing: 2px;">
+                        LOCAL • CLOUD • HYBRID
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPARISON TABLE -->
+        <section class="section-box">
+            <h3 style="margin-bottom: 20px;">How blu compares</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">See how we stack up against other AI coding tools.</p>
+            <table class="comparison-table">
+                <tr>
+                    <td>Feature</td>
+                    <td><strong>blu</strong></td>
+                    <td>Cursor</td>
+                    <td>Copilot</td>
+                </tr>
+                <tr>
+                    <td>Workspace Indexing</td>
+                    <td>✓</td>
+                    <td>✓</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td>Multi-Model Support</td>
+                    <td>✓</td>
+                    <td>Limited</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td>Local/Offline Mode</td>
+                    <td>✓</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td>Terminal Integration</td>
+                    <td>✓</td>
+                    <td>✓</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td>Open Source</td>
+                    <td>✓</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td>Avg Response Time</td>
+                    <td>2s</td>
+                    <td>1.8s</td>
+                    <td>0.9s</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- SECURITY -->
+        <section class="section-box">
+            <h3 style="margin-bottom: 10px;">Enterprise-grade Security</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Your code stays yours. Period.</p>
+            <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div>
+                    <div class="feature-strong">Local Context</div>
+                    <p style="color: var(--text-muted); font-size: 12px;">Indexing happens on your machine. We never upload your repository to our servers for training.</p>
+                </div>
+                <div>
+                    <div class="feature-strong">Zero Retention</div>
+                    <p style="color: var(--text-muted); font-size: 12px;">By using your own API keys, you control the data retention policies of the model providers.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOG -->
+        <section id="blog" class="section-box">
+            <h3>Latest from the Blog</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Engineering insights, product updates, and AI research.</p>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <span class="blog-date">January 23, 2026</span>
+                    <div class="blog-title">Introducing blu v1.0 - Your AI coding assistant</div>
+                    <p class="blog-excerpt">We're excited to launch blu version 1.0. Here's what it does and why we built it.</p>
+                    <a href="blog-page.html" class="blog-link">Read Article →</a>
+                </div>
+                <div class="blog-card">
+                    <span class="blog-date">Coming Soon</span>
+                    <div class="blog-title">More updates on the way</div>
+                    <p class="blog-excerpt">We're working on new features and improvements. Stay tuned for more blog posts.</p>
+                    <a href="blog-page.html" class="blog-link">View Blog →</a>
+                </div>
+                <div class="blog-card">
+                    <span class="blog-date">Coming Soon</span>
+                    <div class="blog-title">Join our community</div>
+                    <p class="blog-excerpt">Share feedback, request features, and connect with other blu users on GitHub.</p>
+                    <a href="https://github.com/Get-Blu/blu" class="blog-link">Visit GitHub →</a>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="blog-page.html"><button class="btn btn-outline">View All Posts</button></a>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="section-box">
+            <h3 style="margin-bottom: 20px;">Frequently Asked Questions</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Everything you need to know about blu.</p>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is blu and how is it different from Other AI tools?</span>
+                    <span class="faq-toggle">+</span>
+                </div> 
+                <div class="faq-answer">
+                    blu is a fork of Cline, optimized for performance and extended with additional model support. While we maintain compatibility with Cline's core features, blu adds faster workspace indexing, multi-model flexibility, and enhanced terminal integration. We're grateful to the Cline community for creating the foundation we build upon.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do I need to pay for API access separately?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Yes. blu is free and open-source, but you'll need to provide your own API keys from providers like Anthropic, OpenAI, or run models locally via Ollama. This gives you full control over costs and data privacy. Pro and Team plans include priority access to certain models.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can blu work completely offline?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Absolutely. Connect blu to Ollama and run models like Llama 3 or Mistral entirely on your local machine. No internet required, no data leaves your device. Perfect for working with sensitive codebases or in air-gapped environments.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How does workspace indexing work?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    When you open a project, blu scans your file structure and creates a semantic map using AST parsing. This index stays local on your machine and helps blu understand relationships between files, imports, and function definitions. It's rebuilt automatically when files change.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is my code used to train AI models?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Never. We don't store or transmit your code to our servers. When using cloud providers, your code is sent directly to them via your API keys. Check each provider's data retention policy—most offer zero-retention options for enterprise users.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What languages and frameworks does blu support?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    blu works with any language VS Code supports. We've optimized context understanding for JavaScript, TypeScript, Python, Go, Rust, Java, and C++.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I use blu with my team?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Yes. The Team plan includes shared context libraries, allowing your team to maintain consistent coding patterns and reusable prompts. Each developer still uses their own API keys, maintaining individual cost control and privacy boundaries.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I contribute to blu's development?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    We welcome contributions! Visit our GitHub repository to submit issues, feature requests, or pull requests. As an open-source project, blu thrives on community input. Check our contributing guidelines for code standards and development setup.
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="section-box" style="text-align: center; padding: 80px 40px;">
+            <h2 style="font-size: 36px; margin-bottom: 20px; letter-spacing: -1px;">Ready to get started?</h2>
+            <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 40px;">Install blu in seconds and bring your own API key.</p>
+            <a href="#"><button class="btn btn-black" style="padding: 16px 40px; font-size: 14px;">Install blu for VS Code</button></a>
+            <p style="color: #999; font-size: 12px; margin-top: 20px;">Free forever • Open source • No credit card required</p>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-col"><a href="https://github.com/Get-Blu/blu">GitHub</a></div>
+            <div class="footer-col"><a href="docs_page.html">Docs</a></div>
+            <div class="footer-col"><a href="privacy_page.html">Privacy</a></div>
+            <div class="footer-col"><a href="/cdn-cgi/l/email-protection#533b363f3f3c133436277e313f267d3a3d">Get in touch</a></div>
+        </footer>
+        <div class="legal">
+            &copy; 2026 blu AI &nbsp; • &nbsp; Built for VS Code &nbsp; • &nbsp; Forked from <a href="https://github.com/cline/cline" style="border-bottom: 1px solid #999;">Cline</a>
+        </div>
+
+    </div> 
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        function createBars(id) {
+            const container = document.getElementById(id);
+            if(!container) return;
+            container.innerHTML = ''; // Clears old content
+            for(let i=0; i<25; i++) {
+                let h = Math.floor(Math.random() * 70) + 20; 
+                let bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = h + '%';
+                bar.style.background = '#3b82f6'; // Bright blue bars
+                bar.style.width = '3px';
+                bar.style.opacity = (h / 100) + 0.2;
+                container.appendChild(bar);
+            }
+        }
+        createBars('bars1');
+        createBars('bars2');
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
